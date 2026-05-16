@@ -1,0 +1,23 @@
+name: otel_postgres
+description: >-
+  OpenTelemetry instrumentation for package:postgres. Wraps query
+  execution in CLIENT-kind spans following the OTel DB semantic
+  conventions (db.system=postgresql, db.statement, db.namespace,
+  server.address/port).
+version: 0.1.0-beta.2-wip
+repository: https://github.com/dartastic/otel_postgres
+homepage: https://dartastic.io
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  dartastic_opentelemetry: ^1.1.0-beta.4
+  dartastic_opentelemetry_api: ^1.0.0-beta.6
+  postgres: ^3.0.0
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.5.2
+  pub_semver: ^2.0.0
+  pubspec_parse: ^1.5.0
+  test: ^1.26.3
