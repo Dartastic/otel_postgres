@@ -28,7 +28,6 @@ import 'package:postgres/postgres.dart';
 Future<void> main() async {
   await OTel.initialize(
     serviceName: 'my-app',
-    endpoint: 'http://localhost:4317',
   );
 
   final conn = await Connection.open(
