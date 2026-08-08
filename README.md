@@ -4,16 +4,16 @@ OpenTelemetry instrumentation for
 [`package:postgres`](https://pub.dev/packages/postgres) (v3.x).
 
 Wraps Postgres `execute` calls in `CLIENT`-kind spans following the
-OTel DB semantic conventions — `db.system=postgresql`,
-`db.operation`, `db.collection.name`, `db.namespace`, `db.query.text`,
-plus error attributes when a query throws.
+OTel DB semantic conventions — `db.system.name=postgresql`,
+`db.operation.name`, `db.collection.name`, `db.namespace`,
+`db.query.text`, plus error attributes when a query throws.
 
 ## Install
 
 ```yaml
 dependencies:
   postgres: ^3.0.0
-  otel_postgres: ^0.1.0-beta.1
+  otel_postgres: ^0.2.0
 ```
 
 ## Use
@@ -69,8 +69,8 @@ final orderId = await tracedPostgresCall<int>(
 
 | OTel attribute        | Source                                |
 |-----------------------|---------------------------------------|
-| `db.system`           | hardcoded `postgresql`                |
-| `db.operation`        | first SQL keyword (e.g. `SELECT`)     |
+| `db.system.name`      | hardcoded `postgresql`                |
+| `db.operation.name`   | first SQL keyword (e.g. `SELECT`)     |
 | `db.collection.name`  | best-effort table extraction          |
 | `db.namespace`        | optional `namespace:` argument        |
 | `db.query.text`       | raw SQL text                          |

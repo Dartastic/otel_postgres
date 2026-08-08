@@ -1,6 +1,19 @@
 # Changelog
 
-## [0.1.0-beta.2-wip]
+## [0.2.0-wip]
+
+### Changed
+
+- Docs and tests now reference the current stable DB semconv keys
+  (`db.system.name`, `db.operation.name`) instead of the deprecated
+  `db.system` / `db.operation` forms the library had already stopped
+  emitting.
+
+### Added
+
+- `example/otel_postgres_example.dart` — runnable example covering
+  `executeTraced`, `tracedPostgresCall`, and zone-scoped suppression.
+- Dartdoc for the suppression API.
 
 ## [0.1.0-beta.1] - 2026-05-16
 

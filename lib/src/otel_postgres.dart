@@ -73,19 +73,17 @@ Attributes _attrs({
   final operation = operationOverride ?? _extractOperation(sqlText);
   final table = tableOverride ?? _extractTable(sqlText);
   return OTel.attributesFromMap(<String, Object>{
-    Database.dbSystem.key: _dbSystem,
-    Database.dbSystemName.key: _dbSystem,
-    if (operation != null) Database.dbOperation.key: operation,
-    if (operation != null) Database.dbOperationName.key: operation,
-    if (table != null) Database.dbCollectionName.key: table,
-    if (namespace != null) Database.dbNamespace.key: namespace,
-    Database.dbQueryText.key: sqlText,
+    Db.dbSystemName.key: _dbSystem,
+    if (operation != null) Db.dbOperationName.key: operation,
+    if (table != null) Db.dbCollectionName.key: table,
+    if (namespace != null) Db.dbNamespace.key: namespace,
+    Db.dbQueryText.key: sqlText,
   });
 }
 
 /// Runs [invoke] inside a CLIENT-kind span named
-/// `postgresql <op> [<table>]` with `db.system=postgresql`,
-/// `db.operation`, `db.collection.name`, and `db.query.text`.
+/// `<op> [<table>]` with `db.system.name=postgresql`,
+/// `db.operation.name`, `db.collection.name`, and `db.query.text`.
 ///
 /// The span is closed automatically. Exceptions are recorded with
 /// `error.type`, `recordException`, and the span status is set to
@@ -126,7 +124,7 @@ Future<R> tracedPostgresCall<R>({
     span.addAttributes(
       OTel.attributes([
         OTel.attributeString(
-          ErrorResource.errorType.key,
+          ErrorAttributes.errorType.key,
           e.runtimeType.toString(),
         ),
       ]),

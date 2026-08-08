@@ -63,10 +63,10 @@ void main() {
       // system info; including it in the span name is redundant.
       expect(span.name, 'SELECT users');
       final attrs = _attrMap(span);
-      expect(attrs['db.system'], 'postgresql');
-      expect(attrs['db.operation'], 'SELECT');
-      expect(attrs['db.collection.name'], 'users');
-      expect(attrs['db.query.text'], contains('FROM users'));
+      expect(attrs[Db.dbSystemName.key], 'postgresql');
+      expect(attrs[Db.dbOperationName.key], 'SELECT');
+      expect(attrs[Db.dbCollectionName.key], 'users');
+      expect(attrs[Db.dbQueryText.key], contains('FROM users'));
     });
 
     test('INSERT extracts table from INTO', () async {
@@ -75,8 +75,8 @@ void main() {
         invoke: () async => 1,
       );
       final attrs = _attrMap(exporter.spans.single);
-      expect(attrs['db.operation'], 'INSERT');
-      expect(attrs['db.collection.name'], 'orders');
+      expect(attrs[Db.dbOperationName.key], 'INSERT');
+      expect(attrs[Db.dbCollectionName.key], 'orders');
     });
 
     test('UPDATE extracts table', () async {
@@ -85,8 +85,8 @@ void main() {
         invoke: () async => 1,
       );
       final attrs = _attrMap(exporter.spans.single);
-      expect(attrs['db.operation'], 'UPDATE');
-      expect(attrs['db.collection.name'], 'users');
+      expect(attrs[Db.dbOperationName.key], 'UPDATE');
+      expect(attrs[Db.dbCollectionName.key], 'users');
     });
 
     test('namespace becomes db.namespace', () async {
@@ -96,7 +96,7 @@ void main() {
         invoke: () async => 1,
       );
       final attrs = _attrMap(exporter.spans.single);
-      expect(attrs['db.namespace'], 'shop');
+      expect(attrs[Db.dbNamespace.key], 'shop');
     });
 
     test('span name drops target when no table can be extracted', () async {
@@ -120,7 +120,7 @@ void main() {
       final span = exporter.spans.single;
       expect(span.status, SpanStatusCode.Error);
       final attrs = _attrMap(span);
-      expect(attrs['error.type'], 'StateError');
+      expect(attrs[ErrorAttributes.errorType.key], 'StateError');
     });
 
     test('zone-scoped suppression skips span creation', () async {
@@ -139,8 +139,8 @@ void main() {
         invoke: () async => 1,
       );
       final attrs = _attrMap(exporter.spans.single);
-      expect(attrs['db.operation'], 'SELECT');
-      expect(attrs['db.collection.name'], 'widgets');
+      expect(attrs[Db.dbOperationName.key], 'SELECT');
+      expect(attrs[Db.dbCollectionName.key], 'widgets');
     });
   });
 }
