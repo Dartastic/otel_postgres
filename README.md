@@ -13,7 +13,7 @@ OTel DB semantic conventions — `db.system.name=postgresql`,
 ```yaml
 dependencies:
   postgres: ^3.0.0
-  otel_postgres: ^0.2.0
+  otel_postgres: ^0.3.0
 ```
 
 ## Use
