@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0
 // Copyright 2025, Mindful Software LLC, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 // `OTelSession`'s receiver is `postgres`'s `Session` type (the supertype
 // for `Connection` / `TxSession`), but the OTel semconv API also exports
 // a `Session` namespace. Prefix postgres so we can name both unambiguously.
@@ -12,7 +12,7 @@ import 'otel_postgres_suppression.dart';
 const _tracerName = 'otel_postgres';
 const _dbSystem = 'postgresql';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 /// Best-effort SQL operation extraction. Pulls the first word
 /// (SELECT, INSERT, UPDATE, DELETE, BEGIN, COMMIT, ROLLBACK, etc.)
@@ -72,7 +72,7 @@ Attributes _attrs({
 }) {
   final operation = operationOverride ?? _extractOperation(sqlText);
   final table = tableOverride ?? _extractTable(sqlText);
-  return OTel.attributesFromMap(<String, Object>{
+  return OTelAPI.attributesFromMap(<String, Object>{
     Db.dbSystemName.key: _dbSystem,
     if (operation != null) Db.dbOperationName.key: operation,
     if (table != null) Db.dbCollectionName.key: table,
@@ -122,8 +122,8 @@ Future<R> tracedPostgresCall<R>({
     return await invoke();
   } catch (e, st) {
     span.addAttributes(
-      OTel.attributes([
-        OTel.attributeString(
+      OTelAPI.attributes([
+        OTelAPI.attributeString(
           ErrorAttributes.errorType.key,
           e.runtimeType.toString(),
         ),
